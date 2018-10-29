@@ -1,26 +1,26 @@
 <?php
 
+namespace App;
+
 use Nette\Application\UI;
 
 
 /**
  * Komentářová komponenta.
- *
- * @author   Jan Tvrdík
  */
 class CommentsControl extends UI\Control
 {
-
 	/** @var     int */
 	private $articleId;
 
 	/** @var     CommentsService */
 	private $service;
 
+
 	/**
 	 * Nastaví ID článku, ke kterému se budou komentáře vázat.
 	 *
-	 * @param    int
+	 * @param    int $id
 	 * @return   void
 	 */
 	public function setArticleId($id)
@@ -28,16 +28,18 @@ class CommentsControl extends UI\Control
 		$this->articleId = $id;
 	}
 
+
 	/**
 	 * Vstříkne službu, kterou tato komponenta bude používat pro práci s komentáři.
 	 *
-	 * @param    CommentsService
+	 * @param    CommentsService $service
 	 * @return   void
 	 */
 	public function setService(CommentsService $service)
 	{
 		$this->service = $service;
 	}
+
 
 	/**
 	 * Vykreslí komentářovou komponentu. Metoda render() je automaticky volaná při vykreslování komponenty pomocí makra {control ...}.
@@ -51,6 +53,7 @@ class CommentsControl extends UI\Control
 		$this->template->comments = $this->service->getComments($this->articleId);
 		$this->template->render();
 	}
+
 
 	/**
 	 * Továrnička na formulář pro přidávání komentářů.
@@ -68,16 +71,17 @@ class CommentsControl extends UI\Control
 		$form->addTextArea('message', 'Text:')
 			->setRequired();
 		$form->addSubmit('send', 'Přidat komentář');
-		$form->onSuccess[] = callback($this, 'processAddCommentForm');
+		$form->onSuccess[] = [$this, 'processAddCommentForm'];
 
 		return $form;
 	}
+
 
 	/**
 	 * Zpracování formuláře na přidávání komentářů.
 	 *
 	 * @todo     Metoda neřeší, že $this->articleId může být NULL nebo může odkazovat na neexistují článek.
-	 * @param    UI\Form           odeslaný formulář, jehož instanci by šlo také získat pomocí $this['addCommentForm']
+	 * @param    UI\Form $form odeslaný formulář, jehož instanci by šlo také získat pomocí $this['addCommentForm']
 	 * @return   void
 	 */
 	public function processAddCommentForm(UI\Form $form)
@@ -88,10 +92,11 @@ class CommentsControl extends UI\Control
 		$this->redirect('this');
 	}
 
+
 	/**
 	 * Odstraní komentář s daným ID.
 	 *
-	 * @param    int               ID komentáře
+	 * @param    int $id ID komentáře
 	 * @return   void
 	 */
 	public function handleDelete($id)
@@ -100,5 +105,4 @@ class CommentsControl extends UI\Control
 		$this->flashMessage('Díky za očistu!');
 		$this->redirect('this');
 	}
-
 }

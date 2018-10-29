@@ -1,16 +1,15 @@
 <?php
 
+namespace App;
+
 use Nette\Application\UI;
 
 
 /**
  * Komponenta pro demonstraci hierarchické struktury.
- *
- * @author   Jan Tvrdík
  */
 class BoxControl extends UI\Control
 {
-
 	/**
 	 * Metody render() je automaticky volaná při vykreslování pomocí Latte makra {control}
 	 */
@@ -22,6 +21,7 @@ class BoxControl extends UI\Control
 		$this->template->render();
 	}
 
+
 	/**
 	 * Továrnička na "foo". Bude automaticky zavolaná při pokusu o získání komponenty "foo".
 	 *
@@ -31,5 +31,4 @@ class BoxControl extends UI\Control
 	{
 		return new BoxControl();
 	}
-
 }

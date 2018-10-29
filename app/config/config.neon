@@ -1,0 +1,10 @@
+application:
+	mapping:
+		*: App\*Presenter
+
+services:
+	- App\ArticlesService
+	- App\CommentsService
+	- App\RouterFactory
+
+	router: @App\RouterFactory::create
